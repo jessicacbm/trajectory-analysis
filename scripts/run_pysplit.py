@@ -2,8 +2,12 @@ import pysplit
 from datetime import datetime #make sure you have pysplit in your virtual environment, pip install pysplit
 
 class Inputs:
-    def __init__(self, lat, lon, height, start_datetime, duration, hysplit_working, 
-                 hysplit_exec, meteo_dir, output_dir, basename):
+    def __init__(self, lat, lon, height, start_datetime: str, duration: int, hysplit_working: str, 
+                 hysplit_exec: str, meteo_dir: str, output_dir: str, basename: str):
+        try:
+            self.start_datetime = datetime.strptime(start_datetime, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            raise ValueError("Trajectory start datetime must be in the format 'YYYY-MM-DD HH:MM:SS' ")
         """
         Inputs to run trajectory model on.
         Parameters:
