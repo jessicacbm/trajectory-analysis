@@ -2,7 +2,7 @@ import pysplit
 from datetime import datetime #make sure you have pysplit in your virtual environment, pip install pysplit
 
 class Inputs:
-    def __init__(self, lat, lon, height, start_time, duration, hysplit_working, 
+    def __init__(self, lat, lon, height, start_datetime, duration, hysplit_working, 
                  hysplit_exec, meteo_dir, output_dir, basename):
         """
         Inputs to run trajectory model on.
@@ -17,7 +17,7 @@ class Inputs:
         self.lat = lat
         self.lon = lon
         self.height = height
-        self.start_time = start_time
+        self.start_datetime = start_datetime
         self.duration = duration
         self.meteo_dir = meteo_dir
         self.output_dir = output_dir
@@ -35,28 +35,26 @@ class Trajectory:
     
     def generate_traj(self):
         #converting start time to datetime object
-        start_time = datetime.strptime(self.inputs.start_time, "%Y-%M-%D %H:%M:%S")
+        start_time = datetime.strptime(self.inputs.start_datetime, "%Y-%m-%d %H:%M:%S")
         #spatial and temporal inputs
-        coordinates = (self.inputs.lat, self.inputs.lon)
-        altitudes = self.inputs.height
-        years = start_time.year
-        months = start_time.month
-        hours = start_time.hour
-        hours = start_time.hour
-        monthslice = slice(start_time.day-1, start_time.day, 1)
-        run = self.inputs.duration
-        #inputs related to directories (user must have necessary files for this to work)
+        basename = self.inputs.basename
         hysplit_working = self.inputs.hysplit_working
         output_dir = self.inputs.output_dir
         meteo_dir = self.inputs.meteo_dir
+        years = [start_time.year]
+        months = [start_time.month]
+        hours = [start_time.hour]
+        altitudes = [self.inputs.height]
+        coordinates = (self.inputs.lat, self.inputs.lon)
+        run = self.inputs.duration
+        monthslicer = slice(start_time.day-1, start_time.day, 1)
+        #inputs related to directories (user must have necessary files for this to work)
         hysplit_exec = self.inputs.hysplit_exec
-        #basename for outputfile
-        basename = self.inputs.basename
         #call pysplit and generate trajectory
         pysplit.generate_bulktraj(basename, hysplit_working, output_dir, meteo_dir, years,
                       months, hours, altitudes, coordinates, run,
                       meteoyr_2digits=True, outputyr_2digits=False,
-                      monthslice=slice(0, 32, 1), meteo_bookends=([4, 5], [1]),
+                      monthslice=monthslicer, meteo_bookends=([4,5], [1]),
                       get_reverse=False, get_clipped=False,
                       hysplit=hysplit_exec)
 
