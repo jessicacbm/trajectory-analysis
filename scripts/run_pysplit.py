@@ -1,6 +1,7 @@
 import pysplit
 from datetime import datetime
 import os
+import pandas
 
 class Inputs:
     def __init__(self, lat, lon, height, start_datetime: str, duration: int, hysplit_working: str, 
@@ -40,9 +41,10 @@ class Inputs:
         return f"lat: {self.lat}, lon: {self.lon}, height: {self.height} m, start time: {self.start_time}"
 
 class Trajectory:
-    """Generating a single trajectory using PYSPLIT package"""
+    """Generating a single trajectory using PYSPLIT package, outputting 2-D csv file"""
     def __init__(self, inputs: Inputs):  #assumes inputs will be an instance of class Inputs
         self.inputs = inputs
+        output_file = os.path.join(self.inputs.output_dir,)
     
     def generate_traj(self):
         #converting start time to datetime object
@@ -68,6 +70,22 @@ class Trajectory:
                       monthslice=monthslicer, meteo_bookends=([4,5], [1]),
                       get_reverse=False, get_clipped=False,
                       hysplit=hysplit_exec)
+        
+
+class Traj_output:
+    """Formatting output and returning pandas dataframe object for manipulation"""
+    def__init__(self, filename:Trajectory.traj_file):
+        filename = self.filename
+    
+    def format_traj(self):
+        traj = pd.read_csv(self.traj_file, skiprows=7, sep = '\+', 
+                           names = [1,2,'year','month','day','hour',7,8,'time_step','lat', 'lon', 'alt', 
+                                    'pressure','pot_temp', 'temp', 'precip', 'bl_height', 'rel_humid', 
+                                    'spc_humic'])
+        traj=traj.drop(labels=[1,2,7,8], axis=1)
+        return traj
+        
+
 
 
         
