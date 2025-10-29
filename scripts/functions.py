@@ -18,3 +18,9 @@ def haversine(lat1, lat2, lon1, lon2):
 
 def mean_rainfall(data):
     return np.mean(data)
+
+# def boundarylayer_position(bl_height, altitude):
+#     if altitude > bl_height:
+#         BLP = BLP + 1
+#     elif altitude < bl_height:
+#         BLP = BLP
