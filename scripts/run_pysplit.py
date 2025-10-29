@@ -1,7 +1,7 @@
 import pysplit
 from datetime import datetime
 import os
-import pandas
+import pandas as pd
 
 class Inputs:
     def __init__(self, lat, lon, height, start_datetime: str, duration: int, hysplit_working: str, 
@@ -44,23 +44,21 @@ class Trajectory:
     """Generating a single trajectory using PYSPLIT package, outputting 2-D csv file"""
     def __init__(self, inputs: Inputs):  #assumes inputs will be an instance of class Inputs
         self.inputs = inputs
-        output_file = os.path.join(self.inputs.output_dir,)
-    
+   #     self.traj_loc = os.path.join(self.inputs.output_dir,self.inputs.start_datetime.strftime("%Y%m%d%H"))
+
     def generate_traj(self):
-        #converting start time to datetime object
-        start_time = datetime.strptime(self.inputs.start_datetime, "%Y-%m-%d %H:%M:%S")
         #spatial and temporal inputs
         basename = self.inputs.basename
         hysplit_working = self.inputs.hysplit_working
         output_dir = self.inputs.output_dir
         meteo_dir = self.inputs.meteo_dir
-        years = [start_time.year]
-        months = [start_time.month]
-        hours = [start_time.hour]
+        years = [self.inputs.start_datetime.year]
+        months = [self.inputs.start_datetime.month]
+        hours = [self.inputs.start_datetime.hour]
         altitudes = [self.inputs.height]
         coordinates = (self.inputs.lat, self.inputs.lon)
         run = self.inputs.duration
-        monthslicer = slice(start_time.day-1, start_time.day, 1)
+        monthslicer = slice(self.inputs.start_datetime.day-1, self.inputs.start_datetime.day, 1)
         #inputs related to directories (user must have necessary files for this to work)
         hysplit_exec = self.inputs.hysplit_exec
         #call pysplit and generate trajectory
@@ -70,19 +68,20 @@ class Trajectory:
                       monthslice=monthslicer, meteo_bookends=([4,5], [1]),
                       get_reverse=False, get_clipped=False,
                       hysplit=hysplit_exec)
-        
 
 class Traj_output:
     """Formatting output and returning pandas dataframe object for manipulation"""
-    def__init__(self, filename:Trajectory.traj_file):
-        filename = self.filename
-    
+    def __init__(self, traj_loc: str):
+        self.traj_loc = traj_loc
+        if not os.path.exists(self.traj_loc):
+            raise ValueError("Path to trajectory file does not exist")
+  
     def format_traj(self):
-        traj = pd.read_csv(self.traj_file, skiprows=7, sep = '\+', 
-                           names = [1,2,'year','month','day','hour',7,8,'time_step','lat', 'lon', 'alt', 
+        traj = pd.read_csv(self.traj_loc, skiprows=8, sep = r'\s+', 
+                           names = ['hey','you','year','month','day','hour','go','away','time_step','lat', 'lon', 'alt', 
                                     'pressure','pot_temp', 'temp', 'precip', 'bl_height', 'rel_humid', 
-                                    'spc_humic'])
-        traj=traj.drop(labels=[1,2,7,8], axis=1)
+                                    'spc_humid'])
+        traj=traj.drop(labels=['hey','you','go','away'], axis=1)
         return traj
         
 
