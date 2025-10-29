@@ -1,9 +1,10 @@
 import pysplit
-from datetime import datetime #make sure you have pysplit in your virtual environment, pip install pysplit
+from datetime import datetime
+import os
 
 class Inputs:
-    def __init__(self, lat, lon, height, start_datetime, duration, hysplit_working, 
-                 hysplit_exec, meteo_dir, output_dir, basename):
+    def __init__(self, lat, lon, height, start_datetime: str, duration: int, hysplit_working: str, 
+                 hysplit_exec: str, meteo_dir: str, output_dir: str, basename: str):
         """
         Inputs to run trajectory model on.
         Parameters:
@@ -14,16 +15,26 @@ class Inputs:
         - meteo_dir: directory where meteorological data is stored
         - output_dir: directory to place output from hysplit
         """
+        try:
+            self.start_datetime = datetime.strptime(start_datetime, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            raise ValueError("Trajectory start datetime must be in the format 'YYYY-MM-DD HH:MM:SS' ")
+        
         self.lat = lat
         self.lon = lon
         self.height = height
-        self.start_datetime = start_datetime
         self.duration = duration
         self.meteo_dir = meteo_dir
         self.output_dir = output_dir
         self.basename = basename
         self.hysplit_working = hysplit_working
         self.hysplit_exec = hysplit_exec
+
+        if not os.path.isdir(self.meteo_dir):
+            raise ValueError("Meteorological data directory does not exist")
+        
+        if len(os.listdir(self.meteo_dir)) == 0:
+            raise ValueError("Meteorological data directory is empty")
 
     def __str__(self):
         return f"lat: {self.lat}, lon: {self.lon}, height: {self.height} m, start time: {self.start_time}"
