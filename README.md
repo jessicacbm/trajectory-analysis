@@ -22,6 +22,14 @@ The requirements file describes the specific versions needed to run pysplit. Run
 ```
 pip install -r requirements.txt
 ```
+# Installing the package
+In order to install the package with the required tools, airtools 
+
+```
+cd trajectory-analysis/airtools-dist
+
+pip install -e .
+```
 
 # Data
 The data has been obtained from https://www.ready.noaa.gov/data/archives/gdas1/
