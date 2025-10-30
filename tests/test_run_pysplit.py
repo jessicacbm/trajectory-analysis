@@ -1,6 +1,4 @@
 import pytest
-from datetime import datetime
-from unittest.mock import MagicMock
 import scripts.run_pysplit as pkg
 
 def test_Inputs():
@@ -16,3 +14,11 @@ def test_Inputs():
         pkg.Inputs(lat=90, lon=90, height= 25, start_datetime="2025-10-31 17:00:00", duration = 240, hysplit_working='str', hysplit_exec='str',
                    meteo_dir= '/home/jessicbm/trajectory-analysis/.gitignore/empty_dir', output_dir='str', basename='str')
         
+    with pytest.raises(TypeError):
+        pkg.Inputs(lat=90, lon=90, height= 25, start_datetime=20240531, duration = 240, hysplit_working='str', hysplit_exec='str',
+                   meteo_dir= '"/home/jessicbm/trajectory-analysis/scripts"', output_dir='str', basename='str')
+        
+
+def test_GenerateTraj():
+    with pytest.raises(TypeError):
+        pkg.GenTraj("inputs")
