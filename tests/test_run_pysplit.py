@@ -17,7 +17,6 @@ def test_Inputs():
     with pytest.raises(TypeError):
         pkg.Inputs(lat=90, lon=90, height= 25, start_datetime=20240531, duration = 240, hysplit_working='str', hysplit_exec='str',
                    meteo_dir= '"/home/jessicbm/trajectory-analysis/scripts"', output_dir='str', basename='str')
-        
 
 def test_GenerateTraj():
     with pytest.raises(TypeError):
