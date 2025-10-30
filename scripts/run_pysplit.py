@@ -11,11 +11,14 @@ class Inputs:
         Parameters:
         - lat, lon: starting (geographic) coorinates
         - height: starting altitude, m
-        - start_time: trajectory launch time, string datetime format
+        - start_time: trajectory launch time, YYYY-MM-DD HH:MM:SS
         - duration: how long to run trajectory for, hours, negative indicates backwards trajectory
         - meteo_dir: directory where meteorological data is stored
         - output_dir: directory to place output from hysplit
         """
+        if not isinstance(start_datetime, str):
+            raise TypeError("start_datetime must be a string in format YYYY-MM-DD HH:MM:SS")
+        
         try:
             self.start_datetime = datetime.strptime(start_datetime, "%Y-%m-%d %H:%M:%S")
         except ValueError:
@@ -40,14 +43,15 @@ class Inputs:
     def __str__(self):
         return f"lat: {self.lat}, lon: {self.lon}, height: {self.height} m, start time: {self.start_time}"
 
-class Trajectory:
+class GenTraj:
     """Generating a single trajectory using PYSPLIT package, outputting 2-D csv file"""
-    def __init__(self, inputs: Inputs):  #assumes inputs will be an instance of class Inputs
+    def __init__(self, inputs: Inputs):
+        if not isinstance(inputs, Inputs):
+            raise TypeError("Inputs must be pre-defined using inputs = Inputs(lat, lon, height, ....)")
         self.inputs = inputs
-   #     self.traj_loc = os.path.join(self.inputs.output_dir,self.inputs.start_datetime.strftime("%Y%m%d%H"))
 
     def generate_traj(self):
-        #spatial and temporal inputs
+        """Will generate single HYSPLIT trajectory and output file in specified output_dir"""
         basename = self.inputs.basename
         hysplit_working = self.inputs.hysplit_working
         output_dir = self.inputs.output_dir
@@ -69,21 +73,8 @@ class Trajectory:
                       get_reverse=False, get_clipped=False,
                       hysplit=hysplit_exec)
 
-class Traj_output:
-    """Formatting output and returning pandas dataframe object for manipulation"""
-    def __init__(self, traj_loc: str):
-        self.traj_loc = traj_loc
-        if not os.path.exists(self.traj_loc):
-            raise ValueError("Path to trajectory file does not exist")
-  
-    def format_traj(self):
-        traj = pd.read_csv(self.traj_loc, skiprows=8, sep = r'\s+', 
-                           names = ['hey','you','year','month','day','hour','go','away','time_step','lat', 'lon', 'alt', 
-                                    'pressure','pot_temp', 'temp', 'precip', 'bl_height', 'rel_humid', 
-                                    'spc_humid'])
-        traj=traj.drop(labels=['hey','you','go','away'], axis=1)
-        return traj
-        
+
+            
 
 
 
