@@ -2,8 +2,8 @@ import pytest
 import numpy as np
 import pandas as pd
 import numpy.testing as npt
-from scripts.functions import mean_rainfall, haversine
-from scripts.calcu import TrajectoryCalculations
+from airtools.functions import mean_rainfall, haversine
+from airtools.calcu import TrajectoryCalculations
 
 # testing the rainfal function
 @pytest.mark.parametrize(
@@ -14,6 +14,10 @@ from scripts.calcu import TrajectoryCalculations
         ])
 
 def test_mean_rainfall(test, expected):
+    '''
+    This test assesses whether the mean_rainfall () 
+    accurately calculates the mean rainfall given an input.
+    '''
     ## testing the rainfall mean function
     # test_input = [1, 2, 3, 4, 5]
     # test_result = 3
@@ -31,11 +35,21 @@ def test_mean_rainfall(test, expected):
         ])
 #currently set to round off to a specific set of decimals
 def test_haversine(lat1, lat2, lon1, lon2, expected):
+    '''
+    This test assesses whether the haversine formula outputs a correct
+    distance in kilometers.
+    
+    '''
     npt.assert_almost_equal(round(haversine(lat1, lat2, lon1, lon2), 1), round(expected, 1))
 
 #could make the testdf into a pythong.mark.parametrize
 
 def test_distance_travelled_func():
+    '''
+    This test assesses whether the distance travelled by an air parcel,
+    independent of the amount of steps backwards there are in the analysis,
+    is correctly calculated.
+    '''
     # give input above
     # run the actual class function
     # check if the output is correct
@@ -59,6 +73,11 @@ def test_distance_travelled_func():
     npt.assert_equal(testDistTravelled, expectedDist)
 
 def test_boundary_position():
+    '''
+    This test assesses whether the percentage of time spent by the air parcel
+    above the boundary layer is correctly calculated.
+    
+    '''
     testdf = pd.DataFrame({
         "traj_id": [1,1,1,1],
         "alt":[450,550,650,750],

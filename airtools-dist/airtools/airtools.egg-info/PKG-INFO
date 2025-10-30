@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: airtools
+Version: 0.1
+Summary: A package to analyse air parcel trajectories
+Author: Jessica Matthew, Phoebe Sloper, Bente Vissel
+License: GPLv3
+Requires-Python: >=3.7, <3.8

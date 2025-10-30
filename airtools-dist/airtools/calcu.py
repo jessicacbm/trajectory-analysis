@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 import numpy as np
 from math import *
-from scripts.functions import mean_rainfall, haversine
+from airtools.functions import mean_rainfall, haversine
 
 class TrajectoryFormatter:
     def __init__(self, input_dir, output_dir):
