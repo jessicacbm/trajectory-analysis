@@ -1,0 +1,6 @@
+numpy<2.0,>=1.19
+matplotlib<4.0,>=3.1
+basemap>=1.2.2
+geopandas<1.0,>=0.8
+cartopy<0.23,>=0.18
+pysplit<1.0,>=0.3.3

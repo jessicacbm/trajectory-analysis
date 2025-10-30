@@ -1,3 +1,2 @@
-trajectories/colgate
-trajectories/formatted_data
-
+trajectories/
+.vscode/settings.json
