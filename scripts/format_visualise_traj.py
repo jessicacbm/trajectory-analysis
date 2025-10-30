@@ -20,8 +20,8 @@ class Traj:
     def format(self):
         """Function for formatting trajectory output"""
         header_row = pd.read_csv(self.filepath, nrows=8, header=None, sep=r'\s+')
-        
-        if 'pressure' not in header_row.iloc[7].values:
+
+        if 'PRESSURE' not in header_row.iloc[7].values:
             raise ValueError(f"The file {self.filepath} does not contain 'pressure' in row 8.")
         
         df = pd.read_csv(self.filepath, skiprows=8, sep = r'\s+', 
