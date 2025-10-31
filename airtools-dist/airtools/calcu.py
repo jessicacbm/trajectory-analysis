@@ -5,67 +5,6 @@ import numpy as np
 from math import *
 from airtools.functions import mean_rainfall, haversine
 
-class TrajectoryFormatter:
-    def __init__(self, input_dir, output_dir):
-        self.input_dir = Path(input_dir)
-        self.output_dir = Path(output_dir)
-        self.output_dir.mkdir(exist_ok=True)
-    
-        self.columns = columns = [
-            "traj_id", "traj_num", "year", "month", "day", "hour",
-            "step", "timestep", "hour_back",
-            "lat", "lon", "alt",
-            "pressure", "theta", "air_temp",
-            "rainfall", "mixdepth", "relhum", "spchumid"
-        ]
-    
-    def _read_file(self,filepath):
-        #read a file, split the lines and prepare for reformatting
-        traj_lines = []
-        with open(filepath) as f:
-            lines = f.readlines()
-            for line in lines:
-                line = line.strip()
-                if not line:
-                    continue
-                parts = line.split()
-                try:
-                    nums = [float(p) for p in parts]
-                    if len(nums) >= 19:
-                        traj_lines.append(nums[:19])
-                except ValueError:
-                    continue
-            return traj_lines
-
-    def format_file(self, filepath):
-            #process one file and save as csv
-        traj_lines = self._read_file(filepath)
-        if traj_lines:
-            df = pd.DataFrame(traj_lines, columns=self.columns)
-            out_file = self.output_dir / f"{filepath.stem}.csv"
-            df.to_csv(out_file, index=False)
-            print(f"Saved {out_file}")
-        else:
-            print(f"No numeric data found in {filepath.name}")
-    
-    def format_all(self,pattern="colgateaug*"):
-        #process all files in dir
-        for filepath in self.input_dir.glob(pattern):
-            if filepath.name.endswith(".Zone.Identifier"):
-                continue
-            self.format_file(filepath)
-
-# if __name__ == "__main__":
-#     input_dir = "/home/bvissel/trajectory-analysis/trajectories/colgate/"
-#     output_dir = "/home/bvissel/trajectory-analysis/trajectories/formatted_data/"
-
-#     formatter = TrajectoryFormatter(input_dir, output_dir)
-#     formatter.format_all()
-
-#now the files are formatted in a class system
-# now can import those files, read data, and define functions for calculations
-
-
 class TrajectoryCalculations:
     def __init__(self, timestamp, datafile):
         self.timestamp = timestamp
