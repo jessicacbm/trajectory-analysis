@@ -8,3 +8,6 @@ __pycache__/
 
 #ignore the datafolder if you have it
 trajectories/
+
+#ignore the vs code folder
+.vscode/
