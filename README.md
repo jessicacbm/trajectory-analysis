@@ -2,13 +2,13 @@
 
 In order to run the airflow trajectory generator, it is necessary to install HYSPLIT and the PySplit package.
 
-First, create a virtual environment which runs on Python3.6 or 3.7, because Pysplit depends on that environment.
+First, create a virtual environment which runs on Python3.7, because Pysplit depends on that environment.
 
 # Installing Hysplit
 
 Highsplit can be downloaded using the following link: https://ready.arl.noaa.gov/HYSPLIT.php 
 
-Place the HYSPLIT folder in the same directory as the folder you are working in/the virtual environment. 
+Place the HYSPLIT folder in the same directory as the folder you are working in/the virtual environment, and make sure to store this path to adjust all paths to where your hysplit folder is located (e.g. hysplit/exec/ or hysplit/working).
 
 # Pysplit
 
@@ -45,4 +45,18 @@ The files that were installed for this project are:
 * August 2012 weeks 1-4 (gdas1.aug12.wk1-wk4)
 * August 2020 weeks 1-2 (gdas1.aug20.wk1-2)
 * August 2025 weeks 1-4 (gdas1.aug25.wk1-4)
+
+# Folder structure
+
+The package needed is stored in the folder 'airtools-dist'. In this folder, the folder 'airtools' exist, as well as the pyproject.toml file and the setup.py file. 
+
+The scripts in airtools describe all the functions needed, and serve functions for two purposes:
+* Running the pysplit model, which calculates the trajectory backwards
+* Performing several calculations on this trajectory data and visualising it
+
+The scripts in tests are pytests.
+
+The docs folder and .readthedocs.yaml are necessary for the sphinx documentation. 
+
+
 
