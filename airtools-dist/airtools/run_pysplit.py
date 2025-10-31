@@ -40,7 +40,7 @@ class Inputs:
     def __str__(self):
         return f"lat: {self.lat}, lon: {self.lon}, height: {self.height} m, start time: {self.start_time}"
 
-class Trajectory:
+class TrajGen:
     """Generating a single trajectory using PYSPLIT package, outputting 2-D csv file"""
     def __init__(self, inputs: Inputs):  #assumes inputs will be an instance of class Inputs
         self.inputs = inputs
@@ -68,3 +68,5 @@ class Trajectory:
                       monthslice=monthslicer, meteo_bookends=([4,5], [1]),
                       get_reverse=False, get_clipped=False,
                       hysplit=hysplit_exec)
+        
+        
