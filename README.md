@@ -58,5 +58,7 @@ The scripts in tests are pytests.
 
 The docs folder and .readthedocs.yaml are necessary for the sphinx documentation. 
 
+Some example scripts for usage can be found in the folder example_docs.
+
 
 
