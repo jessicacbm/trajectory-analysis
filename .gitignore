@@ -1,0 +1,10 @@
+#ignore Python cache folders/files
+__pycache__/
+*.pyc
+
+#ignore package metadata directories/files
+*.egg-info/
+*.egg-info
+
+#ignore the datafolder if you have it
+trajectories/
