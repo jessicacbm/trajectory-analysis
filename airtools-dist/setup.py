@@ -11,5 +11,7 @@ setup(name='airtools',
                           "geopandas>=0.8,<1.0",
                           "cartopy>=0.18,<0.23",
                           "pysplit>=0.3.3,<1.0"],
+      extras_require={
+            "dev": ["pytest", "flake8"]},
       python_requires=">=3.7, <3.8",
       license='GPLv3')
