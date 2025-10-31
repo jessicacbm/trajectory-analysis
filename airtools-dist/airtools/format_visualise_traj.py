@@ -6,7 +6,7 @@ import numpy as np
 from pathlib import Path
 import numpy as np
 from math import *
-from functions import mean_rainfall, haversine
+from .functions import mean_rainfall, haversine
 
 class ProcessTraj:
     """Functions for formatting trajectory output and calculating variables"""
@@ -46,7 +46,7 @@ class ProcessTraj:
 
         traj_df['bl'] = (traj_df['alt'] > traj_df['bl_height']).astype(int)
 
-        pcAboveBL = np.sum(traj_df['bl'])/len(traj_df['lat'])*100
+        pcAboveBL = np.sum(traj_df['bl'])/len(traj_df['traj_id'])*100
 
         print(f'The air parcel is above the boundary layer {pcAboveBL}% of the time')
 
